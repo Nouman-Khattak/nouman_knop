@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "193423764067",
+    "project_id": "nouman-knop",
+    "storage_bucket": "nouman-knop.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193423764067:android:7257e0fd23be62e3e52656",
+        "android_client_info": {
+          "package_name": "com.example.nouman_knop"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpxiEoiR135AJDiqFWuq-O2zQn7FRfQMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

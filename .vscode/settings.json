@@ -1,0 +1,11 @@
+{
+    "dart.previewFlutterUiGuides": true,
+    "dart.previewFlutterUiGuidesCustomTracking": true,
+    "dart.closingLabels": true,
+    "editor.bracketPairColorization.enabled": false,
+    "editor.guides.bracketPairs": false,
+    "editor.guides.indentation": true,
+    "workbench.colorCustomizations": {
+        "dart.flutterUiGuides": "#707680"
+    }
+}
