@@ -284,8 +284,9 @@ class _AnimatedCardWebState extends State<AnimatedCardWeb>
 // Firestore data store
 class AddDatafirestore {
   var logger = Logger();
-  CollectionReference response =
-      FirebaseFirestore.instance.collection("messages");
+  CollectionReference response = FirebaseFirestore.instance.collection(
+    "messages",
+  );
 
   Future<bool> addResponse(
     String firstName,
@@ -294,19 +295,22 @@ class AddDatafirestore {
     String phone,
     String message,
   ) async {
-    return await response.add({
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'phone': phone,
-      'message': message,
-      'timestamp': Timestamp.now(),
-    }).then((value) {
-      logger.d("Message sent Successfully");
-      return true;
-    }).catchError((error) {
-      logger.d("Error sending message: $error");
-      return false;
-    });
+    return await response
+        .add({
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'phone': phone,
+          'message': message,
+          'timestamp': Timestamp.now(),
+        })
+        .then((value) {
+          logger.d("Message sent Successfully");
+          return true;
+        })
+        .catchError((error) {
+          logger.d("Error sending message: $error");
+          return false;
+        });
   }
 }

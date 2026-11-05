@@ -1,9 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:logger/logger.dart';
 import 'package:nouman_knop/components.dart';
+import 'package:nouman_knop/models/post_model.dart';
+import 'package:nouman_knop/providers/post_provider.dart';
+import 'package:nouman_knop/services/api_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BlogMobile extends StatefulWidget {
@@ -133,35 +137,160 @@ class _BlogMobileState extends State<BlogMobile> {
             const SizedBox(height: 25.0),
             const SansBold(28, "Articles & Blog Posts"),
             const SizedBox(height: 15.0),
+            // for using Riverpod StateProvider
+            Consumer(
+              builder: (context, ref, child) {
+                final totalLikes = ref.watch(likeCountProvider);
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Total like:${totalLikes}",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      onPressed: () {
+                        // ref.read (data chaning)
+                        ref.read(likeCountProvider.notifier).state++;
+                      },
+                      icon: Icon(Icons.thumb_up, color: Colors.blue),
+                    ),
+                  ],
+                );
+              },
+            ),
             //  LISTVIEW.BUILDER
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('articles')
-                  .snapshots(),
-              builder: (context, asyncSnapshot) {
-                if (asyncSnapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: asyncSnapshot.data!.docs.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (BuildContext context, int index) {
-                      DocumentSnapshot documentSnapshot =
-                          asyncSnapshot.data!.docs[index];
-                      return BlogPost(
-                        title: documentSnapshot['title'],
-                        body: documentSnapshot['body'],
-                      );
-                    },
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
+            // StreamBuilder<QuerySnapshot>(
+            //   stream: FirebaseFirestore.instance
+            //       .collection('articles')
+            //       .snapshots(),
+            //   builder: (context, asyncSnapshot) {
+            //     if (asyncSnapshot.hasData) {
+            //       return ListView.builder(
+            //         itemCount: asyncSnapshot.data!.docs.length,
+            //         shrinkWrap: true,
+            //         physics: const NeverScrollableScrollPhysics(),
+            //         itemBuilder: (BuildContext context, int index) {
+            //           DocumentSnapshot documentSnapshot =
+            //               asyncSnapshot.data!.docs[index];
+            //           return BlogPost(
+            //             title: documentSnapshot['title'],
+            //             body: documentSnapshot['body'],
+            //           );
+            //         },
+            //       );
+            //     } else {
+            //       return const Center(child: CircularProgressIndicator());
+            //     }
+            //   },
+            // ),
+
+            ////####///////  This method by Dio
+
+            // FutureBuilder<List<PostModel>>(
+            //   future: ApiService().fetchPostsByUser(1),
+            //   builder: (context, snapshot) {
+            //     // data rasty ma hai
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return Center(child: CircularProgressIndicator());
+            //     }
+            //     // error aya network problem ki waja sa yah phir erver error
+            //     if (snapshot.hasError) {
+            //       return Center(child: Text("error:${snapshot.error}"));
+            //     }
+            //     // data agaar ayaa
+            //     if (snapshot.hasData) {
+            //       List<PostModel> posts = snapshot.data!;
+            //       return ListView.builder(
+            //         shrinkWrap: true,
+            //         physics: const NeverScrollableScrollPhysics(),
+            //         itemCount: posts.length,
+            //         itemBuilder: (context, index) {
+            //           final post = posts[index];
+            //           return BlogPost(
+            //             title: " ${post.id}-${post.title}",
+            //             body: post.body,
+            //           );
+            //         },
+            //       );
+            //     }
+            //     return const SizedBox.shrink();
+            //   },
+            // ),
+
+            //// now method riverpod
+            Consumer(
+              builder: (context, ref, child) {
+                //Riverpod(postsProvider) connection with data
+                final postsAsync = ref.watch(postsByUserProvider(1));
+                // Riverpod special method .when()
+                return postsAsync.when(
+                  // A jub data ajaiaaii
+                  data: (posts) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: posts.length,
+                      itemBuilder: (context, index) {
+                        final post = posts[index];
+                        return BlogPost(
+                          title: "${post.id}-${post.title}",
+                          body: post.body,
+                        );
+                      },
+                    );
+                  },
+                  // jub tak loadiing ho
+
+                  error: (err, stack) => Center(child: Text("Eroor:$err")),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                );
               },
             ),
 
             const SizedBox(height: 40.0),
           ],
         ),
+      ),
+      // yaha ab hum submit button daly gy taky data save ho server par
+      floatingActionButton: Consumer(
+        builder: (context, ref, child) {
+          return FloatingActionButton(
+            backgroundColor: Colors.black,
+            child: Icon(Icons.add, color: Colors.white),
+            onPressed: () async {
+              //post request yaha call hogi
+              bool isSuccess = await ApiService().createPost(
+                "Mera aya naya post",
+                "hello hello hello hello hello hello hello hello hello hello hello hello Kon ho ap?",
+              );
+              if (isSuccess && context.mounted) {
+                // yaha khud ba khud data refresh hojai ga nichy method se
+                // api auto fetch ho or list refresh hojai
+                ref.invalidate(postsProvider);
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Mubarak ho tera post save hogya"),
+                  ),
+                );
+              } else if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text("Mubarak nhi hoa"),
+                  ),
+                );
+              }
+            },
+          );
+        },
       ),
     );
   }
@@ -198,16 +327,18 @@ class _BlogPostState extends State<BlogPost> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(3.0),
-                  ),
-                  child: AbelCustom(
-                    text: widget.title.toString(),
-                    color: Colors.white,
-                    size: 25.0,
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(3.0),
+                    ),
+                    child: AbelCustom(
+                      text: widget.title.toString(),
+                      color: Colors.white,
+                      size: 25.0,
+                    ),
                   ),
                 ),
                 IconButton(
