@@ -58,11 +58,11 @@ class _AboutWebState extends State<AboutWeb> {
                 ),
                 urlLauncher(
                   'assets/twitter.svg',
-                  'https://twitter.com/tomcruise/',
+                  'https://www.linkedin.com/in/nouman-farooq-958232445/',
                 ),
                 urlLauncher(
                   'assets/github.svg',
-                  'https://github.com/tomcruise/',
+                  'https://github.com/Nouman-Khattak',
                 ),
                 urlLauncher('assets/web.svg', 'https://web.com/tomcruise/'),
               ],

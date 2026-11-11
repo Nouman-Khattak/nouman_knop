@@ -90,11 +90,11 @@ class _ContactMobileState extends State<ContactMobile> {
                   ),
                   urlLauncher(
                     'assets/twitter.svg',
-                    'https://www.twitter.com/tomcruise',
+                    'https://www.linkedin.com/in/nouman-farooq-958232445/',
                   ),
                   urlLauncher(
                     'assets/github.svg',
-                    'https://www.github.com/tomcruise',
+                    'https://github.com/Nouman-Khattak',
                   ),
                 ],
               ),

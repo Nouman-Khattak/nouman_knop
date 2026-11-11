@@ -80,11 +80,11 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                 ),
                 urlLauncher(
                   'assets/twitter.svg',
-                  'https://twitter.com/tomcruise/',
+                  'https://www.linkedin.com/in/nouman-farooq-958232445/',
                 ),
                 urlLauncher(
                   'assets/github.svg',
-                  'https://github.com/tomcruise/',
+                  'https://github.com/Nouman-Khattak',
                 ),
                 urlLauncher('assets/web.svg', 'https://web.com/tomcruise/'),
               ],
@@ -155,7 +155,7 @@ class _LandingPageWebState extends State<LandingPageWeb> {
                           size: 22,
                         ),
                         SizedBox(width: 12),
-                        Sans(18, "[EMAIL_ADDRESS]"),
+                        Sans(18, "nouman.khattak00@gmail.com"),
                       ],
                     ),
                     const SizedBox(height: 12),

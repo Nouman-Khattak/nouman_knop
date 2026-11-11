@@ -104,11 +104,11 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                   ),
                   urlLauncher(
                     'assets/twitter.svg',
-                    'https://www.twitter.com/tomcruise',
+                    'https://www.linkedin.com/in/nouman-farooq-958232445/',
                   ),
                   urlLauncher(
                     'assets/github.svg',
-                    'https://www.github.com/tomcruise',
+                    'https://github.com/Nouman-Khattak',
                   ),
                 ],
               ),
@@ -166,7 +166,7 @@ class _LandingPageMobileState extends State<LandingPageMobile> {
                       children: const [
                         Icon(Icons.email_outlined, size: 20),
                         SizedBox(width: 10.0),
-                        Sans(15.0, "[EMAIL_ADDRESS]"),
+                        Sans(15.0, "nouman.khattak00@gmail.com"),
                       ],
                     ),
                     const SizedBox(height: 10.0),

@@ -47,11 +47,11 @@ class _WorksWebState extends State<WorksWeb> {
                 ),
                 urlLauncher(
                   'assets/twitter.svg',
-                  'https://twitter.com/tomcruise/',
+                  'https://www.linkedin.com/in/nouman-farooq-958232445/',
                 ),
                 urlLauncher(
                   'assets/github.svg',
-                  'https://github.com/tomcruise/',
+                  'https://github.com/Nouman-Khattak',
                 ),
                 urlLauncher('assets/web.svg', 'https://web.com/tomcruise/'),
               ],
@@ -110,22 +110,30 @@ class _WorksWebState extends State<WorksWeb> {
                 const SizedBox(height: 40),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    AnimatedCardWeb(
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        await launchUrl(
+                          Uri.parse("https://github.com/Nouman-Khattak/youtube_app"),
+                          mode: LaunchMode.externalApplication,
+                        );
+                      },
+                      child: const AnimatedCardWeb(
+                        imagePath: "assets/app.png",
+                        text: "YouTube Mobile Clone (Flutter + Dio)",
+                        fit: BoxFit.contain,
+                        reverse: false,
+                      ),
+                    ),
+                    const AnimatedCardWeb(
                       imagePath: "assets/webL.png",
                       text: "Web Development",
                       fit: BoxFit.contain,
                       reverse: true,
                     ),
-                    AnimatedCardWeb(
-                      imagePath: "assets/app.png",
-                      text: "App Development",
-                      fit: BoxFit.contain,
-                      reverse: false,
-                    ),
-                    AnimatedCardWeb(
+                    const AnimatedCardWeb(
                       imagePath: "assets/firebase.png",
-                      text: "Back-End Development",
+                      text: "Back-End & APIs",
                       fit: BoxFit.contain,
                       reverse: true,
                     ),

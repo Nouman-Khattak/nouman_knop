@@ -72,11 +72,11 @@ class _WorksMobileState extends State<WorksMobile> {
                   ),
                   urlLauncher(
                     'assets/twitter.svg',
-                    'https://www.twitter.com/tomcruise',
+                    'https://www.linkedin.com/in/nouman-farooq-958232445/',
                   ),
                   urlLauncher(
                     'assets/github.svg',
-                    'https://www.github.com/tomcruise',
+                    'https://github.com/Nouman-Khattak',
                   ),
                 ],
               ),
@@ -101,6 +101,21 @@ class _WorksMobileState extends State<WorksMobile> {
             const SizedBox(height: 25.0),
             const SansBold(30, "What I Do"),
             const SizedBox(height: 20.0),
+            InkWell(
+              onTap: () async {
+                await launchUrl(
+                  Uri.parse("https://github.com/Nouman-Khattak/youtube_app"),
+                  mode: LaunchMode.externalApplication,
+                );
+              },
+              child: const AnimatedCardWeb(
+                text: "YouTube Mobile App (Flutter + Dio)",
+                imagePath: 'assets/app.png',
+                fit: BoxFit.contain,
+                reverse: false,
+              ),
+            ),
+            const SizedBox(height: 25.0),
             const AnimatedCardWeb(
               text: "Web Development",
               imagePath: 'assets/webL.png',
@@ -109,14 +124,7 @@ class _WorksMobileState extends State<WorksMobile> {
             ),
             const SizedBox(height: 25.0),
             const AnimatedCardWeb(
-              text: "App Development",
-              imagePath: 'assets/app.png',
-              fit: BoxFit.contain,
-              reverse: false,
-            ),
-            const SizedBox(height: 25.0),
-            const AnimatedCardWeb(
-              text: "Back-End Development",
+              text: "Back-End & APIs",
               imagePath: 'assets/firebase.png',
               fit: BoxFit.contain,
               reverse: true,
